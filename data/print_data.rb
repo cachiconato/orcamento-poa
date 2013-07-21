@@ -26,7 +26,7 @@ end
 text = File.read('ppa-orcamento-rs-2013.txt')
 data = JSON.parse(text)
 
-output = File.open('orcamento.html', 'w')
+output = File.open('output.html', 'w')
 output.write('<html><head><meta charset="utf-8"></head><body>')
 
 data.each do |key, value|
