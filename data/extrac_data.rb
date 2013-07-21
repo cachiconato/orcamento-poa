@@ -34,12 +34,12 @@ end
 class Project
   include ToJson
 
-  attr_accessor :name, :total_budgeted, :total_paid, :percentage
+  attr_accessor :name, :total_budgeted, :total_spent, :percentage
 
-  def initialize(name, total_budgeted, total_paid)
+  def initialize(name, total_budgeted, total_spent)
     @name = name
     @total_budgeted = total_budgeted
-    @total_paid = total_paid
+    @total_spent = total_spent
     @percentage = 0
   end
 
@@ -60,7 +60,7 @@ class Action
   end
 
   def add_project!(project)
-    @total_spent += project.total_paid
+    @total_spent += project.total_spent
     @projects << project
   end
 
@@ -173,12 +173,14 @@ agencies.each do |agency|
     calculate_percentage! program.actions
     program.actions = sort_by_percentage program.actions
 
-    program.actions do |action|
+    program.actions.each do |action|
       calculate_percentage! action.projects
       action.projects = sort_by_percentage action.projects 
 
-      calculate_percentage! action.products
-      action.products = sort_by_percentage action.products 
+      action.products.each do |unit, products|
+        calculate_percentage! products
+        action.products[unit] = sort_by_percentage products 
+      end
     end
   end
 end
