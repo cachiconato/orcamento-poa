@@ -5,7 +5,7 @@ require 'json'
 class OrcamentoApp < Sinatra::Base
   helpers Sinatra::JSON
 
-  @@agencies = JSON.parse File.read('data/data.json')
+  @@agencies ||= JSON.parse File.read('data/data.json')
 
   configure do
     set :views, Proc.new { File.join(root, "public/views") }
